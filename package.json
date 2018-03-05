@@ -1,9 +1,11 @@
 {
-  "name": "EjemploWebpack",
+  "name": "ejemplowebpack",
   "version": "1.0.0",
   "description": "Ejemplo de aplicación ara ver el funcionamiento de webpack",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build":"webpack index.js -o bundle.js --mode development"
+  },
   "keywords": [
     "Webpack"
   ],
