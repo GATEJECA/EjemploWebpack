@@ -1,0 +1,16 @@
+{
+  "name": "EjemploWebpack",
+  "version": "1.0.0",
+  "description": "Ejemplo de aplicación ara ver el funcionamiento de webpack",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "Webpack"
+  ],
+  "author": "Carlos García @GATEJECA",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.1.0",
+    "webpack-cli": "^2.0.10"
+  }
+}
