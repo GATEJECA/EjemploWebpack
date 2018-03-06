@@ -7,7 +7,6 @@ https://stackoverflow.com/questions/35048686/difference-between-path-resolve-and
 module.exports = {
     entry: path.resolve(__dirname, 'index.js'),
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'bundle.js'
     }
 }
