@@ -12,14 +12,14 @@ module.exports = {
             {
                 test: /\.css$/,//que tipo de archivo quiero reconocer, se usar regex
                 use: ExtractTextPlugin.extract({
-                    //["style-loader", "css-loader"],
+                    //["style-loader", "css-loader"], se ponen los loaders que se van a encargar del archivo (tiene que ir en ese orden)
                     use: "css-loader",
-                    fallback: "style-loader"
-                }) //que loader se va a encargar del archivo (tiene que ir en ese orden)
+                    fallback: "style-loader" //si falla, usa este
+                }) 
             }
         ]
     },
-    plugins: [new ExtractTextPlugin("css/styles.css")]
+    plugins: [new ExtractTextPlugin("css/[name].css")] //con [name] pone el nombre del entrypoint
 }
 
 /*
