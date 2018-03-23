@@ -12,6 +12,7 @@
     "build:multiple": "webpack --config ./multiple-entry-points/webpack.config.js",
     "build:dev": "webpack --config ./webpack-dev-server/webpack.config.js --watch",
     "build:babel": "webpack --config ./babel-loader/webpack.config.js",
+    "build:images": "webpack --config ./url-loader-images/webpack.config.js",
     "build:desarrollo": "webpack-dev-server --config ./webpack-dev-server/webpack.config.js"
   },
   "keywords": [
@@ -28,6 +29,7 @@
     "css-loader": "^0.28.10",
     "extract-text-webpack-plugin": "^3.0.2",
     "style-loader": "^0.20.2",
+    "url-loader": "^1.0.1",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
   }
