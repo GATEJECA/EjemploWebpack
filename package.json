@@ -13,6 +13,7 @@
     "build:dev": "webpack --config ./webpack-dev-server/webpack.config.js --watch",
     "build:babel": "webpack --config ./babel-loader/webpack.config.js",
     "build:images": "webpack --config ./url-loader-images/webpack.config.js",
+    "build:fonts": "webpack --config ./url-loader-fonts/webpack.config.js",
     "build:desarrollo": "webpack-dev-server --config ./webpack-dev-server/webpack.config.js"
   },
   "keywords": [
