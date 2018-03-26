@@ -1,0 +1,33 @@
+Los loaders se pueden cargar:
+
+{
+	test: /\.ext$/,
+	use: 'guarever-loader'
+}
+o
+{
+	test: /\.ext$/,
+	use: {
+		loader: 'guarever-loader',
+		options: {
+			...   // --- opciones
+		}
+}
+o
+{
+	test: /\.ext$/,
+	use: ['guarever-loader', 'otro-loader']
+}
+o una combinaci[on de las anteriores
+
+{
+	test: /\.ext$/,
+	use: [ 
+		'guarever-loader', 
+		{
+			loader: 'otro-loader',
+			options: {
+				...  // --- opciones
+			}
+		}
+}
