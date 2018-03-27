@@ -1,5 +1,4 @@
 Los loaders se pueden cargar:
-
 {
 	test: /\.ext$/,
 	use: 'guarever-loader'
@@ -31,3 +30,122 @@ o una combinaci[on de las anteriores
 			}
 		}
 }
+
+Dll: Dinamyc Link Library
+
+Resulta que webpack tiene un plugin llamado ProvidePlugin, el cual funciona como alias para librerias, esto ayuda para casos 
+como owlCarousel que tambien usan el simbolo “$” para ejecutarse
+
+new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery',
+})
+
+OPTIMIZACIÓN:
+
+Optimizando el paquete de dependencias comunes
+Para evitar que los archivos comunes no se generen cada vez que hacemos build utilizaremos DLL
+
+1- Creamos un nuevo webpack config
+
+webpack.config.dll.js
+
+const path = require('path')
+const webpack = require('webpack')
+
+module.exports = {
+  entry: {
+    modules: [
+      'react',
+      'react-dom'
+    ]
+  },
+  output: {
+    filename: '[name].dll.js',
+    path: path.join(__dirname, '../', 'dist'),
+    library: '[name]'
+  },
+  plugins: [
+    new webpack.DllPlugin({
+      name: '[name]',
+      path: path.join(__dirname, '[name]-manifest.json')
+    })
+  ]
+}
+
+Explicación: En el entry se pondrá los módulos que no se actualizaran para solo 
+tener que ejecutarlos una vez. Library en el output definirá el nombre del modulo 
+generado. Con el plugin definiremos como se llamara el dll y su archivo manifiesto 
+que sera un json con las rutas
+
+Dato Curioso: Si le ponen “module” al entry point 
+les dará el error __webpack_require__(...) is not a function
+
+2- Crear nuevo comando para package.json
+
+"build:dll": "webpack --config ./webpack/webpack.config.dll.js --mode development",
+
+3- Crear webpack.config.js
+
+const path = require('path')
+const webpack = require('webpack')
+
+module.exports = {
+  entry: {
+    index: path.join(__dirname, '../', './src/js', 'index.js'),
+    home: path.join(__dirname, '../', './src/js', 'home.js')
+  },
+  output: {
+    filename: 'bundle.[name].js',
+    path: path.join(__dirname, '../', 'dist')
+  },
+  devServer: {...},
+  module: {...},
+  plugins: [
+    new webpack.DllReferencePlugin({
+      manifest: require('./modules-manifest.json')
+    })
+  ]
+}
+Explicación: Ya no necesitaremos los Chunks ya que se tomo los archivos 
+repetidos en un dll. Ahora debemos importarlos con DllReferencePlugin requiriendo 
+el archivo manifiesto generado por del dll.
+
+3- index.html
+
+<scriptsrc="./dist/modules.dll.js"></script>
+<scriptsrc="./dist/bundle.index.js"></script>
+
+
+Adicional a esto adicional podemos cambiar webpack.config.js para excluir 
+la carpeta node_modules y nos aumenta un poco mas el rendimiento 
+gg, el codigo quedaría asi:
+
+{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["es2015", "react"]
+          }
+        }
+},
+
+En proyectos HTML PARA USAR WEBPACK BUSCAR LO SIGUIENTE:
+HtmlWebpackPlugin
+
+new HtmlWebpackPlugin({
+	template: `${__dirname}/src/production.html`,
+	hash: true,
+	filename: "index.html",
+	minify: {
+		collapseWhitespace: true,
+		html5: true,
+		minifyCSS: true,
+		removeComments: true,
+		removeEmptyAttributes: true,
+		inject: "body"
+	}
+}),
